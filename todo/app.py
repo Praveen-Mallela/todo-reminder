@@ -1,8 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy 
-#from flask_bootstrap import Bootstrap
 app = Flask(__name__)
-
+# data base configurations
 app.config['SQLALCHEMY_DATABASE_URI'] = r'sqlite:///C:\Users\MALLELA PRAVEEN\Desktop\todo\todo.db'
 
 db = SQLAlchemy(app)
@@ -19,7 +18,7 @@ def index():
     complete = Todo.query.filter_by(complete=True).all()
 
     return render_template('index1.html', incomplete=incomplete, complete=complete)
-
+# to add tasks
 @app.route('/add', methods=['POST'])
 def add():
     todo = Todo(text=request.form['todoitem'], complete=False)
@@ -27,7 +26,7 @@ def add():
     db.session.commit()
 
     return redirect(url_for('index'))
-
+# to complete the task
 @app.route('/complete/<id>')
 def complete(id):
 
